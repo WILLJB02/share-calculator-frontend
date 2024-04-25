@@ -37,13 +37,20 @@ const App: React.FC = () => {
     investment: 0,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, stockCode: string, field: keyof InputData) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    stockCode: string,
+    field: keyof InputData
+  ) => {
     const { value } = e.target;
     setInputData((prevData) => ({
       ...prevData,
-      [field]: { ...prevData[field], [stockCode]: parseInt(value, 10) || 0 },
+      [field]: {
+        ...(prevData[field] as { [key: string]: number }), // Type assertion here
+        [stockCode]: parseInt(value, 10) || 0,
+      },
     }));
-  };
+  }
 
   const handleCalculateClick = async () => {
     try {
